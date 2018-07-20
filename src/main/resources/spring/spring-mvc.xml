@@ -39,16 +39,16 @@
         <property name="defaultEncoding" value="UTF-8" />
         <!-- 文件最大 1G -->
         <property name="maxUploadSize" value="1047576" />
-
     </bean>
 
+    <mvc:resources mapping="/*" location="views/" />
 
 
     <!-- 配置Spring MVC的视图解析器 -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
         <!-- 有时我们需要访问JSP页面,可理解为在控制器controller的返回值加前缀和后缀,变成一个可用的URL地址 -->
-        <property name="prefix" value="/WEB-INF/views"/>
-        <property name="suffix" value=".jsp"/>
+        <property name="prefix" value="/views/"/>
+        <property name="suffix" value=".hx  tml"/>
     </bean>
 
 </beans>

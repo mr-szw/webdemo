@@ -6,7 +6,7 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
@@ -18,7 +18,7 @@ public class LoginCheckController {
     private static final Logger logger = LoggerFactory.getLogger(LoginCheckController.class);
 
     /* 登陆认证*/
-    @PostMapping(value = "/login")
+    @GetMapping(value = "/login")
     public String checkLogin(String userName, String passWord) {
 
         logger.info("checkLogin : userName={}, passWord={}", userName, passWord);
