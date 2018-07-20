@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <!-- 扫描包文件 -->
+    <context:component-scan base-package="com.test.webdemo.services" />
+
+    <!-- 配置ShiroFilter 对象  -->
+    <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >
+        <!-- 向过滤器添加securityManager -->
+        <property name="securityManager" ref="securityManager" />
+        <!-- 设置登录页 -->
+        <property name="loginUrl" value="login.html" />
+        <!-- 无权限跳转页 -->
+        <property name="unauthorizedUrl" value="error_403.html" />
+
+        <!-- 添加过滤器链 anon ：不需要认证； authc ：需要认证-->
+        <property name="filterChainDefinitions">
+            <value>
+                /login = anon
+                /* = authc
+            </value>
+        </property>
+    </bean>
+
+    <!-- 创建SecurityManager对象 -->
+    <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" >
+        <property name="realm" ref="myInitRealm" />
+    </bean>
+
+    <!-- 创建自定义的Realm -->
+    <bean id="myInitRealm" class="com.test.webdemo.shiro.MyInitRealm" >
+
+    </bean>
+</beans>
