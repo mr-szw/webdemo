@@ -16,6 +16,9 @@ public class MyInitRealm extends AuthorizingRealm{
     /* 做授权 */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
+
+
+
         return null;
     }
 
@@ -23,6 +26,8 @@ public class MyInitRealm extends AuthorizingRealm{
     /* 做认证 */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authenticationToken) throws AuthenticationException {
+
+
         return null;
     }
 }

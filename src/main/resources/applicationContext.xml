@@ -22,13 +22,13 @@
         <!-- 添加过滤器链 anon ：不需要认证； authc ：需要认证-->
         <property name="filterChainDefinitions">
             <value>
-                /login = anon
+                /login.html = anon
                 /* = authc
             </value>
         </property>
     </bean>
 
-    <!-- 创建SecurityManager对象 -->
+    <!-- 1、创建SecurityManager对象 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager" >
         <property name="realm" ref="myInitRealm" />
     </bean>
