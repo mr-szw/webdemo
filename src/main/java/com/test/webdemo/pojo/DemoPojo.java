@@ -5,8 +5,7 @@ import java.util.Date;
 import java.util.Set;
 
 /**
- * @author: Dawei
- * @Date: 2018/7/19
+ * @author by Dawei on  2018/7/19
  */
 public class DemoPojo implements Serializable {
 

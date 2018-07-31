@@ -8,7 +8,7 @@
        http://www.springframework.org/schema/context/spring-context.xsd">
 
     <!-- 扫描包文件 -->
-    <context:component-scan base-package="com.test.webdemo" />
+    <context:component-scan base-package="com.test.webdemo.services" />
 
     <!-- 配置ShiroFilter 对象  -->
     <bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean" >
@@ -38,13 +38,11 @@
     <bean id="myInitRealm" class="com.test.webdemo.shiro.MyInitRealm" >
         <!-- 对数据Realm 做加密 -->
         <property name="credentialsMatcher" ref="credentialsMatcher" />
-     </bean>
-
     </bean>
 
 
-    <bean class="com.test.webdemo.pojo.DemoPojo" id="demoPojo"
-        p:name = "sdsd">
+    <bean class="com.test.webdemo.pojo.DemoPojo" id="demoPojo">
+    </bean>
     <!-- 加密 -->
     <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher" id="credentialsMatcher" >
         <!-- 加密算法名称 -->
