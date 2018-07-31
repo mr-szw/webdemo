@@ -17,14 +17,21 @@
     <!-- 指定要扫描的包的位置 -->
     <context:component-scan base-package="com.test.webdemo.controller" />
     <!-- 告知Spring，我们启用注解驱动 -->
-    <mvc:annotation-driven />
+    <mvc:annotation-driven >
+        <!-- 解决返回中文乱码 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter" >
+                <constructor-arg value="utf-8" />
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
 
     <!--
         org.springframework.web.servlet.resource.DefaultServletHttpRequestHandler，
         它会像一个检查员，对进入DispatcherServlet的URL进行筛查，如果发现是静态资源的请求，
         就将该请求转由Web应用服务器默认的Servlet处理，如果不是静态资源的请求，才由DispatcherServlet继续处理。
        -->
-    <mvc:default-servlet-handler/>
+    <mvc:default-servlet-handler default-servlet-name="springMVC"/>
 
     <mvc:interceptors>
         <mvc:interceptor>
@@ -44,7 +51,7 @@
         <property name="maxUploadSize" value="1047576" />
     </bean>
 
-    <mvc:resources mapping="/*" location="views/" />
+    <mvc:resources mapping="/*" location="/views/" />
 
 
     <!-- 配置Spring MVC的视图解析器 -->
