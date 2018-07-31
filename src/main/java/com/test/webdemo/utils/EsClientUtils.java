@@ -1,6 +1,7 @@
 package com.test.webdemo.utils;
 
-import com.alibaba.fastjson.JSON;
+import org.elasticsearch.action.delete.DeleteResponse;
+import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
 import org.elasticsearch.action.index.IndexResponse;
 import org.elasticsearch.client.transport.TransportClient;
@@ -19,7 +20,7 @@ import java.net.UnknownHostException;
 public class EsClientUtils {
 
     private static final String ES_SERVER_HOST = GetPropertyUtil.getPropertiesInfoString("elasticsearch.properties", "hostAddress", "192.168.111.21");
-    private static final Integer ES_SERVER_PORT = GetPropertyUtil.getPropertiesInfoInt("elasticsearch.properties", "esPort", "9200");
+    private static final Integer ES_SERVER_PORT = GetPropertyUtil.getPropertiesInfoInt("elasticsearch.properties", "esPort", "9300");
 
 
     /**
@@ -32,8 +33,7 @@ public class EsClientUtils {
             Settings settings = Settings.builder().put("cluster.name","my-application").build();
             //创建Client
             transportClient =
-                    new PreBuiltTransportClient(settings)
-                            .addTransportAddress(new TransportAddress(InetAddress.getByName(ES_SERVER_HOST), ES_SERVER_PORT));
+                    new PreBuiltTransportClient(settings).addTransportAddress(new TransportAddress(InetAddress.getByName(ES_SERVER_HOST), ES_SERVER_PORT));
         } catch (UnknownHostException e) {
             e.printStackTrace();
         }
@@ -51,6 +51,9 @@ public class EsClientUtils {
 
     /**
      * 创建索引
+     * @param index1 一级索引分组
+     * @param index2 二级索引分组
+     * @param indexId 索引ID
      */
     public static IndexRequestBuilder createIndex(TransportClient transportClient, String index1, String index2, String indexId) {
         /*
@@ -68,19 +71,39 @@ public class EsClientUtils {
     /**
      * 添加文档
      * @param indexRequest 索引请求
-     * @param source 存储的资源内容
+     * @param source 存储的资源内容 进入的Source 需匹配对应的类型
      * @param contentType 资源内容格式类型
-     * @return 添加Response
+     * @return 索引操作的相应结果
      */
     public static IndexResponse addDocument(IndexRequestBuilder indexRequest, String source, XContentType contentType) {
         /* 添加文档 */
-        IndexRequestBuilder documentResponse = indexRequest.setSource(JSON.toJSONString(source), contentType);
+        IndexRequestBuilder documentResponse = indexRequest.setSource(source, contentType);
         /* 获取结果信息 */
-        return indexRequest.get();
+        return documentResponse.get();
+    }
+
+    /**
+     * 获取文档
+     * @param transportClient Es Client
+     * @param index1 一级索引分组
+     * @param index2 二级索引分组
+     * @param indexId 索引ID
+     */
+    public static GetResponse getDocument(TransportClient transportClient, String index1, String index2, String indexId) {
+       return transportClient.prepareGet(index1, index2, indexId).get();
     }
 
 
-
+    /**
+     * 删除文档
+     * @param transportClient Es Client
+     * @param index1 一级索引分组
+     * @param index2 二级索引分组
+     * @param indexId 索引ID
+     */
+    public static DeleteResponse deleteDocumen(TransportClient transportClient, String index1, String index2, String indexId) {
+        return transportClient.prepareDelete(index1, index2, indexId).get();
+    }
 
 
 
