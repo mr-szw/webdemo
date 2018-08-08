@@ -177,7 +177,6 @@ public class EsClientUtils {
         HighlightBuilder highlightBuilder = new HighlightBuilder();
         highlightBuilder.preTags("<strong>");
         highlightBuilder.postTags("</strong");
-        highlightBuilder.field("属性列");
         return searchRequestBuilder.setQuery(QueryBuilders.matchQuery("属性列", "匹配值"))
                 .highlighter(highlightBuilder)
                 .setFetchSource(new String[]{"包含的属性列1","包含的属性列2"}, new String[]{"剔除的属性列1", "剔除的属性列2"})
