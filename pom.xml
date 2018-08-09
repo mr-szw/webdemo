@@ -20,6 +20,8 @@
     </properties>
 
     <dependencies>
+
+
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
@@ -167,6 +169,27 @@
             <version>RELEASE</version>
             <scope>compile</scope>
         </dependency>
+
+
+
+        <!--curator-framework -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-framework</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+        <!-- curator-recipes -->
+        <dependency>
+            <groupId>org.apache.curator</groupId>
+            <artifactId>curator-recipes</artifactId>
+            <version>4.0.1</version>
+        </dependency>
+
+
+
+
+
+
     </dependencies>
 
     <build>
