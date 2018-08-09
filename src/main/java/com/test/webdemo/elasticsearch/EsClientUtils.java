@@ -1,5 +1,6 @@
-package com.test.webdemo.utils;
+package com.test.webdemo.elasticsearch;
 
+import com.test.webdemo.utils.GetPropertyUtil;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;

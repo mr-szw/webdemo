@@ -1,6 +1,7 @@
 package com.test.webdemo.utils;
 
 import com.alibaba.fastjson.JSON;
+import com.test.webdemo.elasticsearch.EsClientUtils;
 import org.elasticsearch.action.delete.DeleteResponse;
 import org.elasticsearch.action.get.GetResponse;
 import org.elasticsearch.action.index.IndexRequestBuilder;
@@ -44,7 +45,7 @@ public class EsClientUtilsTest {
         System.out.println("documentUpdate  " + documentUpdate.toString());
 
         //4、删除文档
-        DeleteResponse deleteResponse = EsClientUtils.deleteDocumen(esClient, "book", "java", "4");
+        DeleteResponse deleteResponse = EsClientUtils.deleteDocument(esClient, "book", "java", "4");
         System.out.println("deleteResponse  " + deleteResponse.toString());
 
 
