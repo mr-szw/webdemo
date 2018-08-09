@@ -14,6 +14,8 @@ import org.elasticsearch.index.query.MatchPhraseQueryBuilder;
 import org.elasticsearch.index.query.QueryBuilders;
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHits;
+import org.elasticsearch.search.fetch.subphase.highlight.HighlightBuilder;
+import org.elasticsearch.search.sort.SortOrder;
 import org.elasticsearch.transport.client.PreBuiltTransportClient;
 
 import java.net.InetAddress;
@@ -108,15 +110,126 @@ public class EsClientUtils {
     /**
      * 删除文档
      * @param transportClient Es Client
-     * @param index1 一级索引分组
-     * @param index2 二级索引分组
+     * @param index 索引分组
+     * @param type 类型分组
      * @param indexId 索引ID
      */
-    public static DeleteResponse deleteDocumen(TransportClient transportClient, String index1, String index2, String indexId) {
-        return transportClient.prepareDelete(index1, index2, indexId).get();
+    public static DeleteResponse deleteDocument(TransportClient transportClient, String index, String type, String indexId) {
+        return transportClient.prepareDelete(index, type, indexId).get();
+    }
+
+    /**
+     * 查询所有
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @return 查询结果
+     */
+    public SearchResponse searchAll(TransportClient transportClient, String index, String type) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        return searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery())
+                .execute()
+                .actionGet();
+
+    }
+
+    /**
+     * 查询过滤
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @return 查询结果
+     */
+    public SearchResponse searchAllInclude(TransportClient transportClient, String index, String type) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        return searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery())
+                .setFetchSource(new String[]{"包含的属性列1","包含的属性列2"}, new String[]{"剔除的属性列1", "剔除的属性列2"})
+                .execute()
+                .actionGet();
+
+    }
+
+    /**
+     * 匹配查询
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @return 查询结果
+     */
+    public SearchResponse searchAllMatch(TransportClient transportClient, String index, String type) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        return searchRequestBuilder.setQuery(QueryBuilders.matchQuery("属性列", "匹配值"))
+                .setFetchSource(new String[]{"包含的属性列1","包含的属性列2"}, new String[]{"剔除的属性列1", "剔除的属性列2"})
+                .execute()
+                .actionGet();
+
+    }
+
+    /**
+     * 高亮显示
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @return 查询结果
+     */
+    public SearchResponse searchHighLight(TransportClient transportClient, String index, String type) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        HighlightBuilder highlightBuilder = new HighlightBuilder();
+        highlightBuilder.preTags("<strong>");
+        highlightBuilder.postTags("</strong");
+        highlightBuilder.field("属性列");
+        return searchRequestBuilder.setQuery(QueryBuilders.matchQuery("属性列", "匹配值"))
+                .highlighter(highlightBuilder)
+                .setFetchSource(new String[]{"包含的属性列1","包含的属性列2"}, new String[]{"剔除的属性列1", "剔除的属性列2"})
+                .execute()
+                .actionGet();
+
     }
 
 
+
+
+
+    /**
+     * 分页查询
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @param pageIndex  页码起始值
+     * @param pageSize 每页size
+     * @return 查询结果
+     */
+    public SearchResponse searchByPage(TransportClient transportClient, String index, String type, Integer pageIndex, Integer pageSize) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        return searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery())
+                .setFrom(pageIndex)
+                .setSize(pageSize)
+                .execute()
+                .actionGet();
+
+    }
+
+
+    /**
+     * 分页查询 加排序
+     * @param transportClient 连接客户端
+     * @param index 索引组
+     * @param type 类型组
+     * @param pageIndex  页码起始值
+     * @param pageSize 每页size
+     * @return 查询结果
+     */
+    public SearchResponse searchBySort(TransportClient transportClient, String index, String type, Integer pageIndex, Integer pageSize) {
+        SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
+        return searchRequestBuilder.setQuery(QueryBuilders.matchAllQuery())
+                .addSort("key1", SortOrder.ASC)
+                .addSort("key2", SortOrder.DESC)
+                .setFrom(pageIndex)
+                .setSize(pageSize)
+                .execute()
+                .actionGet();
+
+    }
 
 
 
@@ -171,7 +284,7 @@ public class EsClientUtils {
 
 
 
-    /* 多字段 */
+    /* 多字段 查询*/
     public static SearchResponse searchMulitWord(TransportClient transportClient, String index, String type) {
         SearchRequestBuilder searchRequestBuilder = transportClient.prepareSearch(index).setTypes(type);
         SearchResponse searchResponse = searchRequestBuilder.setQuery(QueryBuilders
