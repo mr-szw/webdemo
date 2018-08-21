@@ -1,5 +1,4 @@
-<!DOCTYPE "http://java.sun.com/dtd/web-app_2_3.dtd" >
-
+<?xml version="1.0" encoding="UTF-8"?>
 <web-app>
   <display-name>Archetype Created Web Application</display-name>
   <!-- 加载Spring容器配置 -->
@@ -38,20 +37,33 @@
   </filter-mapping>
 
   <!--  配置前端控制器  -->
-  <servlet>
+ <!-- <servlet>
     <servlet-name>springMVC</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <init-param>
       <param-name>contextConfigLocation</param-name>
-      <!-- 自定义springmvc 配置文件位置 -->
+      &lt;!&ndash; 自定义springmvc 配置文件位置 &ndash;&gt;
       <param-value>classpath*:/spring/spring-mvc.xml</param-value>
     </init-param>
-    <!--用来标记是否在项目启动时就加在此Servlet,0或正数表示容器在应用启动时就加载这个Servlet,
-       当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载.正数值越小启动优先值越高  -->
+    &lt;!&ndash;用来标记是否在项目启动时就加在此Servlet,0或正数表示容器在应用启动时就加载这个Servlet,
+       当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载.正数值越小启动优先值越高  &ndash;&gt;
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>springMVC</servlet-name>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>-->
+
+
+  <servlet>
+    <servlet-name>mySpringMVC</servlet-name>
+    <servlet-class>com.test.webdemo.myspringmvc.servlet.MyDispatcherServlet</servlet-class>
+    <!--用来标记是否在项目启动时就加在此Servlet,0或正数表示容器在应用启动时就加载这个Servlet,
+       当是一个负数时或者没有指定时，则指示容器在该servlet被选择时才加载.正数值越小启动优先值越高  -->
+    <load-on-startup>2</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>mySpringMVC</servlet-name>
     <url-pattern>/</url-pattern>
   </servlet-mapping>
 
