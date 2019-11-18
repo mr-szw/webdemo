@@ -15,6 +15,10 @@ import java.net.UnknownHostException;
 @RequestMapping(value = "/lottery")
 public class IndexController {
 
+    /**
+     *
+     * @return
+     */
     @GetMapping(value = "/index")
     public String index() {
         System.out.println("index.>>>>>>>>>>>>>>>>>>>>>>>>");
