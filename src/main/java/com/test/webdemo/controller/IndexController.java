@@ -16,7 +16,7 @@ import java.net.UnknownHostException;
 public class IndexController {
 
     /**
-     *
+     * 2
      * @return
      */
     @GetMapping(value = "/index")
