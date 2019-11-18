@@ -17,7 +17,7 @@ public class IndexController {
 
     /**
      * 2
-     * @return
+     * @return 3
      */
     @GetMapping(value = "/index")
     public String index() {
