@@ -31,7 +31,7 @@ public class LoginCheckController {
         try {
             subject.login(usernamePasswordToken);
         } catch (AuthenticationException e) {
-            logger.error("AuthenticationException : e={}", e);
+            logger.error("AuthenticationException : e=", e);
             return "校验失败";
         }
 
